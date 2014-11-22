@@ -6,25 +6,25 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/.bundle
+rails/.bundle
 
 # Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
+rails/db/*.sqlite3
+rails/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
-/tmp
+rails/log/*.log
+rails/tmp
 =======
 *.rbc
 capybara-*.html
 .rspec
-/log
-/tmp
-/db/*.sqlite3
-/public/system
-/coverage/
-/spec/tmp
+rails/log
+rails/tmp
+rails/db/*.sqlite3
+rails/public/system
+rails/coverage/
+rails/spec/tmp
 **.orig
 rerun.txt
 pickle-email-*.html
@@ -34,8 +34,8 @@ config/initializers/secret_token.rb
 config/secrets.yml
 
 ## Environment normalisation:
-/.bundle
-/vendor/bundle
+rails/.bundle
+rails/vendor/bundle
 
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
@@ -44,7 +44,7 @@ config/secrets.yml
 .rvmrc
 
 # if using bower-rails ignore default bower_components path bower.json files
-/vendor/assets/bower_components
+rails/vendor/assets/bower_components
 *.bowerrc
 bower.json
 >>>>>>> 13ef7337eef04c32bd48d6ca3a513d3611385118
