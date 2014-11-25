@@ -1,3 +1,18 @@
 // Place all the styles related to the wallpapers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.wallpaper-thumbnail-container {
+  padding: 20px 25px;
+  padding-right: 0;
+
+  .wallpaper-thumbnail-item {
+    margin-right: 20px;
+    float: left;
+    border: 1px solid #ccc;
+
+    img {
+      margin-bottom: 6px;
+    }
+  }
+}

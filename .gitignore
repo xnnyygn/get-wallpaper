@@ -48,3 +48,5 @@ rails/vendor/assets/bower_components
 *.bowerrc
 bower.json
 >>>>>>> 13ef7337eef04c32bd48d6ca3a513d3611385118
+
+rails/app/assets/images

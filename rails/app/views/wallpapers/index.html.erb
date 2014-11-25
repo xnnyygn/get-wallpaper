@@ -1,2 +1,35 @@
-<h1>Wallpapers#index</h1>
-<p>Find me in app/views/wallpapers/index.html.erb</p>
+<% if true || @current_user %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Recommend
+    <span class="pull-right">
+      <a href="#">More...</a>
+    </span>
+  </div>
+  <div class="panel-body wallpaper-thumbnail-container">
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @image_files, as: :image_file_name %>
+  </div>
+</div>
+<% end %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Latest
+    <span class="pull-right">
+      <a href="#">More...</a>
+    </span>
+  </div>
+  <div class="panel-body wallpaper-thumbnail-container">
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @image_files.shuffle, as: :image_file_name %>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Popular
+    <span class="pull-right">
+      <a href="#">More...</a>
+    </span>
+  </div>
+  <div class="panel-body wallpaper-thumbnail-container">
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @image_files.shuffle, as: :image_file_name %>
+  </div>
+</div>
