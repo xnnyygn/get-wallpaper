@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
+
+  get 'wallpapers/index'
+  get 'wallpapers/list'
+
+  root 'wallpapers#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
