@@ -1,4 +1,4 @@
 <div class="wallpaper-thumbnail-item">
-  <%= image_tag image_file_name, alt: 'Image' %>
-  <p class="text-center"><%= truncate(image_file_name, length: 28) %></p>
+  <%= image_tag 'wallpapers/thumbnail/' + wallpaper.storage_key, alt: 'Image' %>
+  <p class="text-center"><%= truncate(wallpaper.title, length: 28) %></p>
 </div>

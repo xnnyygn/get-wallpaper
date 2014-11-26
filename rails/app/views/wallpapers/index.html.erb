@@ -1,4 +1,4 @@
-<% if true || @current_user %>
+<% if @wallpapers_recommend %>
 <div class="panel panel-default">
   <div class="panel-heading">
     Recommend
@@ -7,7 +7,7 @@
     </span>
   </div>
   <div class="panel-body wallpaper-thumbnail-container">
-    <%= render partial: 'wallpaper_thumbnail_item', collection: @image_files, as: :image_file_name %>
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_recommend, as: :wallpaper %>
   </div>
 </div>
 <% end %>
@@ -15,11 +15,11 @@
   <div class="panel-heading">
     Latest
     <span class="pull-right">
-      <a href="#">More...</a>
+      <%= link_to 'More...', wallpapers_list_latest_path %>
     </span>
   </div>
   <div class="panel-body wallpaper-thumbnail-container">
-    <%= render partial: 'wallpaper_thumbnail_item', collection: @image_files.shuffle, as: :image_file_name %>
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_latest.shuffle, as: :wallpaper %>
   </div>
 </div>
 <div class="panel panel-default">
@@ -30,6 +30,6 @@
     </span>
   </div>
   <div class="panel-body wallpaper-thumbnail-container">
-    <%= render partial: 'wallpaper_thumbnail_item', collection: @image_files.shuffle, as: :image_file_name %>
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_popular.shuffle, as: :wallpaper %>
   </div>
 </div>

@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   get 'wallpapers/index'
   get 'wallpapers/list'
 
+  get 'wallpapers/list/recommend' => 'wallpapers#list_recommend'
+  get 'wallpapers/list/latest' => 'wallpapers#list_latest'
+  get 'wallpapers/list/popular' => 'wallpapers#list_popular'
+
   root 'wallpapers#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
