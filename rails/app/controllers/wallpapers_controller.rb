@@ -26,4 +26,23 @@ class WallpapersController < ApplicationController
     # TODO sort by download count
     @wallpapers = Wallpaper.all()
   end
+
+  def thumbnail
+    # find wallpaper by id
+    wallpaper = Wallpaper.find(params[:id])
+    if wallpaper
+      # check width
+      width = params[:width].to_i
+      height = params[:height].to_i
+      if Wallpaper.check_thumbnail_resolution(width, height)
+        send_file wallpaper.crop_and_resize(width, height), type: wallpaper.mime_type, disposition: 'inline'
+      else
+        logger.warn "illegal thumbnail resolution #{width}x#{height}"
+        render status: 400
+      end
+    else
+      # send 404
+      render status: 404
+    end
+  end
 end

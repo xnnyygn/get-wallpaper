@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'wallpapers/list/latest' => 'wallpapers#list_latest'
   get 'wallpapers/list/popular' => 'wallpapers#list_popular'
 
+  get 'wallpapers/:id/thumbnail' => 'wallpapers#thumbnail', as: 'wallpaper_thumbnail'
+
   root 'wallpapers#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

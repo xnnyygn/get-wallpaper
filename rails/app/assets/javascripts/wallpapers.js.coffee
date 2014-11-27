@@ -4,7 +4,7 @@
 
 ready = ->
   $('.wallpaper-thumbnail-item').click ->
-    $('#downloadDialog img').attr('src', $(this).find('img').attr('src'))
+    $('#downloadDialog img').attr('src', $(this).find('.thumbnail_large_path').text())
     $('#downloadDialog').modal('show')
 
 $(document).ready(ready)

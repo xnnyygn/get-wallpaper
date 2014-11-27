@@ -49,7 +49,7 @@ rails/vendor/assets/bower_components
 bower.json
 >>>>>>> 13ef7337eef04c32bd48d6ca3a513d3611385118
 
-rails/public/images/wallpapers/original/*.jpg
-rails/public/images/wallpapers/original/*.png
-rails/public/images/wallpapers/thumbnail/*.jpg
-rails/public/images/wallpapers/thumbnail/*.png
+rails/public/images/wallpapers/original/*
+!rails/public/images/wallpapers/original/.keep
+rails/public/images/wallpapers/target/*
+!rails/public/images/wallpapers/target/.keep
