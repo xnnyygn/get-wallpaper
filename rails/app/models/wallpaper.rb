@@ -12,13 +12,32 @@ class Wallpaper < ActiveRecord::Base
     EXTENSION_MIME_TYPE_MAPPING[extension]
   end
 
-  def self.check_resolution(width, height)
+  def self.check_minimum_resolution(width, height)
     width >= MIN_WIDTH && height >= MIN_HEIGHT
   end
 
+  def available_resolution
+    VALID_WALLPAPER_RESOLUTION.select do |r|
+      r[0] <= width && r[1] <= height
+    end
+  end
+
+  def check_resolution(target_width, target_height)
+    target_width <= width && target_height <= height && VALID_WALLPAPER_RESOLUTION.include?([target_width, target_height])
+  end
+
+  def determine_extension
+      EXTENSION_MIME_TYPE_MAPPING.each do |ext, mt|
+        if mt == mime_type
+          return ext
+        end
+      end
+    end
+
   def crop_and_resize(target_width, target_height)
     # #{id}-#{width}
-    target_file_name = "#{storage_key}-#{target_width}x#{target_height}"
+    extension = determine_extension
+    target_file_name = "#{storage_key}-#{target_width}x#{target_height}#{extension}"
     target_file_path = File.join(STORAGE_TARGET_FOLDER, target_file_name)
     unless File.exists?(target_file_path)
       original_file_name = "#{storage_key}"
@@ -40,8 +59,20 @@ class Wallpaper < ActiveRecord::Base
   private
     VALID_THUMBNAIL_RESOLUTION = Set.new([
       [200, 125],
+      [500, 300],
       [800, 600]
     ])
+    VALID_WALLPAPER_RESOLUTION = [
+      [800, 600],
+      [1024, 768],
+      [1152, 864],
+      [1280, 960],
+      [1400, 1050],
+      [960, 600],
+      [1152, 720],
+      [1440, 900],
+      [1680, 1050]
+    ]
     STORAGE_ROOT = File.join(Rails.public_path, 'images', 'wallpapers')
     STORAGE_ORIGINAL_FOLDER = File.join(STORAGE_ROOT, 'original')
     STORAGE_TARGET_FOLDER = File.join(STORAGE_ROOT, 'target')

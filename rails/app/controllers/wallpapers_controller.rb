@@ -29,6 +29,7 @@ class WallpapersController < ApplicationController
 
   def thumbnail
     # find wallpaper by id
+    # TODO handle ActiveRecord::NotFound
     wallpaper = Wallpaper.find(params[:id])
     if wallpaper
       # check width
@@ -38,6 +39,7 @@ class WallpapersController < ApplicationController
         send_file wallpaper.crop_and_resize(width, height), type: wallpaper.mime_type, disposition: 'inline'
       else
         logger.warn "illegal thumbnail resolution #{width}x#{height}"
+        # TODO return message
         render status: 400
       end
     else
@@ -45,4 +47,31 @@ class WallpapersController < ApplicationController
       render status: 404
     end
   end
+
+  def download_dialog
+    @wallpaper = Wallpaper.find(params[:id])
+    render layout:false
+  end
+
+  def download
+    wallpaper = Wallpaper.find(params[:id])
+    if wallpaper
+      # check width
+      width = params[:width].to_i
+      height = params[:height].to_i
+      if wallpaper.check_resolution(width, height)
+        send_file wallpaper.crop_and_resize(width, height), 
+          filename: "#{wallpaper.title}-#{width}x#{height}#{wallpaper.determine_extension}",
+          type: wallpaper.mime_type
+      else
+        logger.warn "illegal resolution #{width}x#{height}"
+        # TODO return message
+        render status: 400
+      end
+    else
+      # send 404
+      render status: 404
+    end
+  end
+
 end

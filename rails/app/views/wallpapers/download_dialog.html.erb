@@ -1,0 +1,6 @@
+<%= image_tag wallpaper_thumbnail_path(@wallpaper, width: 500, height: 300), alt: 'Image' %>
+<div>
+<% @wallpaper.available_resolution().each do |r| %>
+<%= link_to "#{r[0]}x#{r[1]}", wallpaper_download_path(@wallpaper, width: r[0], height: r[1]) %>
+<% end %>
+</div>

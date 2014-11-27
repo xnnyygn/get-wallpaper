@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'wallpapers/list/popular' => 'wallpapers#list_popular'
 
   get 'wallpapers/:id/thumbnail' => 'wallpapers#thumbnail', as: 'wallpaper_thumbnail'
+  get 'wallpapers/:id/download_dialog' => 'wallpapers#download_dialog', as: 'wallpaper_download_dialog'
+  get 'wallpapers/:id/download' => 'wallpapers#download', as: 'wallpaper_download'
 
   root 'wallpapers#index'
 
