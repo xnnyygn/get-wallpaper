@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'wallpapers/list/recommend' => 'wallpapers#list_recommend'
   get 'wallpapers/list/latest' => 'wallpapers#list_latest'
   get 'wallpapers/list/popular' => 'wallpapers#list_popular'
+  get 'wallpapers/list/category/:category_id' => 'wallpapers#list_category', as: 'wallpapers_list_category'
 
   get 'wallpapers/:id/thumbnail' => 'wallpapers#thumbnail', as: 'wallpaper_thumbnail'
   get 'wallpapers/:id/download_dialog' => 'wallpapers#download_dialog', as: 'wallpaper_download_dialog'

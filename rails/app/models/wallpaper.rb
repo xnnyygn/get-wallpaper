@@ -1,5 +1,7 @@
 class Wallpaper < ActiveRecord::Base
 
+  belongs_to :category
+
   def self.check_thumbnail_resolution(width, height)
     VALID_THUMBNAIL_RESOLUTION.include? [width, height]
   end
@@ -93,7 +95,7 @@ class Wallpaper < ActiveRecord::Base
           0
         ]
       else
-        crop_height = source_height / target_ratio
+        crop_height = source_width / target_ratio
         [
           source_width,
           crop_height.to_i,
