@@ -7,17 +7,28 @@ Rails.application.routes.draw do
   post 'login' => 'session#create'
   delete 'logout' => 'session#destroy'
 
-  get 'wallpapers/index'
-  get 'wallpapers/list'
+  # get 'wallpapers/list/recommend' => 'wallpapers#list_recommend'
+  # get 'wallpapers/list/latest' => 'wallpapers#list_latest'
+  # get 'wallpapers/list/popular' => 'wallpapers#list_popular'
+  # get 'wallpapers/list/category/:category_id' => 'wallpapers#list_category', as: 'wallpapers_list_category'
 
-  get 'wallpapers/list/recommend' => 'wallpapers#list_recommend'
-  get 'wallpapers/list/latest' => 'wallpapers#list_latest'
-  get 'wallpapers/list/popular' => 'wallpapers#list_popular'
-  get 'wallpapers/list/category/:category_id' => 'wallpapers#list_category', as: 'wallpapers_list_category'
+  # get 'wallpapers/:id/thumbnail' => 'wallpapers#thumbnail', as: 'wallpaper_thumbnail'
+  # get 'wallpapers/:id/download_dialog' => 'wallpapers#download_dialog', as: 'wallpaper_download_dialog'
+  # get 'wallpapers/:id/download/:width/:height' => 'wallpapers#download', as: 'wallpaper_download'
 
-  get 'wallpapers/:id/thumbnail' => 'wallpapers#thumbnail', as: 'wallpaper_thumbnail'
-  get 'wallpapers/:id/download_dialog' => 'wallpapers#download_dialog', as: 'wallpaper_download_dialog'
-  get 'wallpapers/:id/download/:width/:height' => 'wallpapers#download', as: 'wallpaper_download'
+  resources :wallpapers do
+    member do
+      get 'thumbnail'
+      get 'download_dialog'
+      get 'download'
+    end
+    collection do
+      get 'recommend' => 'wallpapers#list_recommend'
+      get 'latest' => 'wallpapers#list_latest'
+      get 'popular' => 'wallpapers#list_popular'
+      get 'category/:category_id' => 'wallpapers#list_category', as: 'list_category'
+    end
+  end
 
   root 'wallpapers#index'
 

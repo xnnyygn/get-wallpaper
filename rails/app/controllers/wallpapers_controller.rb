@@ -82,4 +82,10 @@ class WallpapersController < ApplicationController
     end
   end
 
+  def new
+  end
+
+  def create
+  end
+
 end

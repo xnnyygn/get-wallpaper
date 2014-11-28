@@ -1,5 +1,5 @@
 <div class="wallpaper-thumbnail-item">
-  <%= image_tag wallpaper_thumbnail_path(wallpaper, width: 200, height: 125), alt: 'Image' %>
-  <div class="hidden thumbnail_download_dialog_path"><%= wallpaper_download_dialog_path(wallpaper) %></div>
+  <%= image_tag thumbnail_wallpaper_path(wallpaper, width: 200, height: 125), alt: 'Image' %>
+  <div class="hidden thumbnail_download_dialog_path"><%= download_dialog_wallpaper_path(wallpaper) %></div>
   <p class="text-center"><%= truncate(wallpaper.title, length: 25) %></p>
 </div>
