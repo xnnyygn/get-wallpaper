@@ -47,13 +47,18 @@ class Wallpaper < ActiveRecord::Base
 
       source_width = width
       source_height = height
-      source_ratio = width * 1.0 / height
-      target_ratio = target_width * 1.0 / target_height
-      crop_bound = calculate_crop_bound(source_width, source_height, source_ratio, target_ratio)
-      # generate by ImageMagick
-      command = "convert #{original_file_path} -crop #{crop_bound[0]}x#{crop_bound[1]}+#{crop_bound[2]}+#{crop_bound[3]} -resize #{target_width}x#{target_height} #{target_file_path}"
-      logger.info command
-      `#{command}`
+      # use original file if same resolution
+      if source_width == target_width && source_height == target_height
+        target_file_path = original_file_path
+      else
+        source_ratio = width * 1.0 / height
+        target_ratio = target_width * 1.0 / target_height
+        crop_bound = calculate_crop_bound(source_width, source_height, source_ratio, target_ratio)
+        # generate by ImageMagick
+        command = "convert #{original_file_path} -crop #{crop_bound[0]}x#{crop_bound[1]}+#{crop_bound[2]}+#{crop_bound[3]} -resize #{target_width}x#{target_height} #{target_file_path}"
+        logger.info command
+        `#{command}`
+      end
     end
     target_file_path
   end
