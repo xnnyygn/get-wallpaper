@@ -1,5 +1,8 @@
 class Wallpaper < ActiveRecord::Base
 
+  validates :title, presence: true, length: {maximum: 255}, uniqueness: true
+  validates :category, presence: true
+
   belongs_to :category
 
   def self.check_thumbnail_resolution(width, height)
@@ -16,6 +19,10 @@ class Wallpaper < ActiveRecord::Base
 
   def self.check_minimum_resolution(width, height)
     width >= MIN_WIDTH && height >= MIN_HEIGHT
+  end
+
+  def self.determine_storage_path(key)
+    File.join(STORAGE_ORIGINAL_FOLDER, key)
   end
 
   def available_resolution
@@ -42,8 +49,7 @@ class Wallpaper < ActiveRecord::Base
     target_file_name = "#{storage_key}-#{target_width}x#{target_height}#{extension}"
     target_file_path = File.join(STORAGE_TARGET_FOLDER, target_file_name)
     unless File.exists?(target_file_path)
-      original_file_name = "#{storage_key}"
-      original_file_path = File.join(STORAGE_ORIGINAL_FOLDER, original_file_name)
+      original_file_path = Wallpaper.determine_storage_path(storage_key)
 
       source_width = width
       source_height = height
