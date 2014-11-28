@@ -1,0 +1,40 @@
+<% if @user.errors.any? %>
+  <div id="form-register-alert" class="alert alert-warning">
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="row">
+  <h2 class="col-sm-offset-4 col-sm-4">Register</h2>
+</div>
+
+<%= form_for(@user, url: register_path, method: :post, html: {id: 'form-register', class: 'form-horizontal', role: 'form'}) do |f| %>
+  <div class="form-group">
+    <%= f.label :name, class: 'col-sm-4 control-label' %>
+    <div class="col-sm-4">
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Name' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :password, class: 'col-sm-4 control-label' %>
+    <div class="col-sm-4">
+      <%= f.password_field :password, class: 'form-control', placeholder: 'Password' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :password_confirmation, 'Password Confirmation', class: 'col-sm-4 control-label' %>
+    <div class="col-sm-4">
+      <%= f.password_field :password_confirmation, class: 'form-control', placeholder: 'Password Confirmation' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-4">
+      <%= submit_tag 'Register', class: 'btn btn-primary' %>
+      <%= link_to 'Cancel', root_path %>
+    </div>
+  </div>
+<% end %>
