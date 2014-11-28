@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141127081241) do
+ActiveRecord::Schema.define(version: 20141128024721) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -33,8 +33,9 @@ ActiveRecord::Schema.define(version: 20141127081241) do
     t.string   "storage_key"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "mime_type",   limit: 32
+    t.string   "mime_type",      limit: 32
     t.integer  "category_id"
+    t.integer  "download_count",            default: 0
   end
 
   add_index "wallpapers", ["category_id"], name: "index_wallpapers_on_category_id"

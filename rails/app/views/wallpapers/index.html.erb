@@ -19,18 +19,18 @@
     </span>
   </div>
   <div class="panel-body wallpaper-thumbnail-container">
-    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_latest.shuffle, as: :wallpaper %>
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_latest, as: :wallpaper %>
   </div>
 </div>
 <div class="panel panel-default">
   <div class="panel-heading">
     Popular
     <span class="pull-right">
-      <a href="#">More...</a>
+      <%= link_to 'More...', wallpapers_list_popular_path %>
     </span>
   </div>
   <div class="panel-body wallpaper-thumbnail-container">
-    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_popular.shuffle, as: :wallpaper %>
+    <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers_popular, as: :wallpaper %>
   </div>
 </div>
 <%= render 'download_dialog_modal' %>

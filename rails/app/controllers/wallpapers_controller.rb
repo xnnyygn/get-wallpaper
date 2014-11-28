@@ -5,7 +5,7 @@ class WallpapersController < ApplicationController
       @wallpapers_recommend = Wallpaper.all().limit(5)
     end
     @wallpapers_latest = Wallpaper.order(updated_at: :desc).limit(5)
-    @wallpapers_popular = @wallpapers_latest
+    @wallpapers_popular = Wallpaper.order(download_count: :desc).limit(5)
   end
 
   def list
@@ -18,13 +18,11 @@ class WallpapersController < ApplicationController
   end
 
   def list_latest
-    # TODO add paginate
     @wallpapers = Wallpaper.order(updated_at: :desc).page(params[:page]).per(20)
   end
 
   def list_popular
-    # TODO sort by download count
-    @wallpapers = Wallpaper.all()
+    @wallpapers = Wallpaper.order(download_count: :desc).page(params[:page]).per(20)
   end
 
   def list_category
@@ -65,9 +63,14 @@ class WallpapersController < ApplicationController
       width = params[:width].to_i
       height = params[:height].to_i
       if wallpaper.check_resolution(width, height)
+        # increase download count
+        wallpaper.download_count += 1
+        wallpaper.save()
+
         send_file wallpaper.crop_and_resize(width, height), 
           filename: "#{wallpaper.title}-#{width}x#{height}#{wallpaper.determine_extension}",
-          type: wallpaper.mime_type
+          type: wallpaper.mime_type,
+          disposition:'attachment'
       else
         logger.warn "illegal resolution #{width}x#{height}"
         # TODO return message

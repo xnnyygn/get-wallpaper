@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Popular Wallpapers</div>
+  <div class="panel-body wallpaper-thumbnail-container">
+    <div class="clearfix">
+      <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers, as: 'wallpaper' %>
+    </div>
+    <div class="text-center pagination-container">
+      <%= paginate @wallpapers %>
+    </div>
+  </div>
+</div>
+<%= render 'download_dialog_modal' %>
