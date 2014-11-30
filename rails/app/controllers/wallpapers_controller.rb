@@ -97,6 +97,11 @@ class WallpapersController < ApplicationController
     })
     # validate wallpaper
     if @wallpaper.valid? && check_and_save_wallpaper(@wallpaper, params[:wallpaper])
+
+      tags = Tag.ensure_all(params[:tags])
+      @wallpaper.tags = tags
+      @wallpaper.save()
+
       redirect_to latest_wallpapers_url
     else
       render :new
@@ -147,7 +152,6 @@ class WallpapersController < ApplicationController
       @wallpaper.width = width
       @wallpaper.height = height
       @wallpaper.mime_type = wallpaper_tmpfile.content_type
-      @wallpaper.save()
       return true
     end
 

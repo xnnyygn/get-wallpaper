@@ -4,7 +4,10 @@ class Wallpaper < ActiveRecord::Base
   validates :category, presence: true
 
   belongs_to :category
-  belongs_to :uploader, class_name: 'User' 
+  belongs_to :uploader, class_name: 'User'
+  
+  has_many :wallpaper_tags
+  has_many :tags, :through => :wallpaper_tags
 
   def self.check_thumbnail_resolution(width, height)
     VALID_THUMBNAIL_RESOLUTION.include? [width, height]

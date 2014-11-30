@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  wallpaper: 
+  tag_id: 
+
+two:
+  wallpaper: 
+  tag_id: 
