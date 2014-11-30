@@ -87,48 +87,65 @@ class WallpapersController < ApplicationController
   end
 
   def create
-    # validate wallpaper
     @wallpaper = Wallpaper.new({
       title: params[:title], 
       category: Category.find(params[:category_id])
     })
-    if @wallpaper.valid?
-      file = params[:wallpaper]
-      if file
-        # check resolution
-        identify_result = `identify -format '%w %h' #{file.path}`
-        if $?.to_i == 0
-          resolution = identify_result.split
-          width = resolution[0].to_i
-          height = resolution[1].to_i
-          logger.debug "wallpaper resolution #{width}x#{height}"
-          storage_key = SecureRandom.uuid()
-
-          if Wallpaper.check_minimum_resolution(width, height)
-            dest_path = Wallpaper.determine_storage_path(storage_key)
-            logger.info "upload wallpaper to #{dest_path}"
-            File.open(dest_path, 'wb') {
-              |df| df.write(file.read)
-            }
-
-            @wallpaper.storage_key = storage_key
-            @wallpaper.width = width
-            @wallpaper.height = height
-            @wallpaper.mime_type = file.content_type
-            @wallpaper.save()
-            redirect_to latest_wallpapers_url
-            return
-          else
-            @wallpaper.errors[:base] = 'the minimum resolution of wallpaper is 800x600'
-          end
-        else
-          @wallpaper.errors[:base] = 'failed to retrieve resolution from image'
-        end
-      else
-        @wallpaper.errors[:base] = 'image required'
-      end
+    # validate wallpaper
+    if @wallpaper.valid? && check_and_save_wallpaper(@wallpaper, params[:wallpaper])
+      redirect_to latest_wallpapers_url
+    else
+      render :new
     end
-    render :new
   end
+
+  private
+    def check_and_save_wallpaper(wallpaper, wallpaper_tmpfile)
+      # check if empty
+      if wallpaper_tmpfile.nil?
+        @wallpaper.errors[:base] = 'image required'
+        return false
+      end
+
+      # check size 1M threshold
+      logger.debug "wallpaper size #{wallpaper_tmpfile.size}"
+      if wallpaper_tmpfile.size > 1024 * 1024
+        @wallpaper.errors[:base] = 'image too large, size threshold 1M'
+        return false
+      end
+
+      # retrieve resolution
+      identify_result = `identify -format '%w %h' #{wallpaper_tmpfile.path}`
+      if $?.to_i != 0
+        @wallpaper.errors[:base] = 'failed to retrieve resolution from image'
+        return false
+      end
+
+      resolution = identify_result.split
+      width = resolution[0].to_i
+      height = resolution[1].to_i
+      logger.debug "wallpaper resolution #{width}x#{height}"
+      storage_key = SecureRandom.uuid()
+
+      # check resolution
+      unless Wallpaper.check_minimum_resolution(width, height)
+        @wallpaper.errors[:base] = 'the minimum resolution of wallpaper is 800x600'
+        return false
+      end
+      
+      dest_path = Wallpaper.determine_storage_path(storage_key)
+      logger.info "upload wallpaper to #{dest_path}"
+      File.open(dest_path, 'wb') {
+        |df| df.write(wallpaper_tmpfile.read)
+      }
+
+      @wallpaper.storage_key = storage_key
+      @wallpaper.width = width
+      @wallpaper.height = height
+      @wallpaper.mime_type = wallpaper_tmpfile.content_type
+      @wallpaper.save()
+      return true
+    end
+
 
 end
