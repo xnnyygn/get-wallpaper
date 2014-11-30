@@ -81,6 +81,10 @@ class WallpapersController < ApplicationController
     end
   end
 
+  def show
+    @wallpaper = Wallpaper.find(params[:id])
+  end
+
   def new
     @wallpaper = Wallpaper.new()
   end

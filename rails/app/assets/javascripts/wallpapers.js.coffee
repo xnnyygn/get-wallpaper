@@ -3,8 +3,8 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 ready = ->
-  $('.wallpaper-thumbnail-item').click ->
-    url = $(this).find('.thumbnail_download_dialog_path').text()
+  $('.wallpaper-thumbnail-item > img').click ->
+    url = $(this).siblings('.thumbnail_download_dialog_path').text()
     $('#download-dialog .wallpaper-download-container').load(url)
     $('#download-dialog').modal('show')
 
