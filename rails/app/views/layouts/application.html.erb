@@ -25,12 +25,12 @@
               </ul>
             </li>
           </ul>
-          <form class="navbar-form navbar-left" role="search">
+          <%= form_tag filter_wallpapers_path, method: :get, class: 'navbar-form navbar-left', role: 'search', authenticity_token: false, enforce_utf8: false do %>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search By Tag">
+              <%= text_field_tag :tag, nil, class: 'form-control', placeholder: 'Filter By Tag' %>
             </div>
-            <button type="submit" class="btn btn-default">Search</button>
-          </form>
+            <button type="submit" class="btn btn-default">Filter</button>
+          <% end %>
           <ul class="nav navbar-nav navbar-right">
             <% if @current_user %>
             <li class="dropdown">

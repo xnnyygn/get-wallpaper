@@ -29,6 +29,18 @@ class WallpapersController < ApplicationController
     @wallpapers = Wallpaper.where(category: @category).order(updated_at: :desc).page(params[:page]).per(20)
   end
 
+  def filter
+    tag_text = params[:tag]
+    if tag_text.blank?
+      redirect_to latest_wallpapers_url
+    else
+      @tag = Tag.find_by(name: params[:tag])
+      if @tag
+        @wallpapers = @tag.wallpapers.page(params[:page]).per(20)
+      end
+    end
+  end
+
   def thumbnail
     # find wallpaper by id
     # TODO handle ActiveRecord::NotFound
