@@ -1,15 +1,14 @@
 class WallpapersController < ApplicationController
+
+  skip_before_action :authorize, except: [:new, :create]
+
   def index
-    # TODO remove true
-    if true or @current_user
+    if @current_user
+      # TODO implement recommend
       @wallpapers_recommend = Wallpaper.all().limit(5)
     end
     @wallpapers_latest = Wallpaper.order(updated_at: :desc).limit(5)
     @wallpapers_popular = Wallpaper.order(download_count: :desc).limit(5)
-  end
-
-  def list
-    render text: 'Wallpaper List'
   end
 
   def list_recommend
