@@ -1,5 +1,5 @@
 <h2><%= @wallpaper.title %></h2>
-<p>Uploaded At <%= @wallpaper.created_at %></p>
+<p>Uploaded At <%= @wallpaper.created_at %> By <%= @wallpaper.uploader.name %></p>
 <%= image_tag thumbnail_wallpaper_path(@wallpaper, width: 500, height: 300), alt: 'Image', class: 'wallpaper-thumbnail-large' %>
 <div>
 <% @wallpaper.available_resolution().each do |r| %>

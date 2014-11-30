@@ -92,7 +92,8 @@ class WallpapersController < ApplicationController
   def create
     @wallpaper = Wallpaper.new({
       title: params[:title], 
-      category: Category.find(params[:category_id])
+      category: Category.find(params[:category_id]),
+      uploader: @current_user
     })
     # validate wallpaper
     if @wallpaper.valid? && check_and_save_wallpaper(@wallpaper, params[:wallpaper])
