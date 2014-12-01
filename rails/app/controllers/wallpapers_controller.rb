@@ -1,6 +1,6 @@
 class WallpapersController < ApplicationController
 
-  skip_before_action :authorize, except: [:new, :create]
+  skip_before_action :authorize, except: [:new, :create, :add_to_collection]
 
   def index
     if @current_user
@@ -64,7 +64,32 @@ class WallpapersController < ApplicationController
 
   def download_dialog
     @wallpaper = Wallpaper.find(params[:id])
+    if @current_user
+      @wallpaper_stat = WallpaperStat.find_by(wallpaper: @wallpaper, user: @current_user) || WallpaperStat.new
+    end
     render layout:false
+  end
+
+  def add_to_collection
+    wallpaper = Wallpaper.find(params[:id])
+    wallpaper_stat = WallpaperStat.find_or_create(wallpaper, @current_user)
+    wallpaper_stat.favorite = true
+    wallpaper_stat.save
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def remove_from_collection
+    wallpaper = Wallpaper.find(params[:id])
+    wallpaper_stat = WallpaperStat.find_or_create(wallpaper, @current_user)
+    wallpaper_stat.favorite = false
+    wallpaper_stat.save
+    
+    respond_to do |format|
+      format.js
+    end
   end
 
   def download

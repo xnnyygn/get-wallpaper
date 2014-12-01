@@ -4,3 +4,7 @@
 <%= link_to "#{r[0]}x#{r[1]}", download_wallpaper_path(@wallpaper, width: r[0], height: r[1]), target: '_blank' %>
 <% end %>
 </div>
+<% if @current_user %>
+<%= link_to 'Remove From Collection', remove_from_collection_wallpaper_path(@wallpaper), remote: true, id: 'remove-wallpaper-from-collection', class: @wallpaper_stat.favorite ? 'show' : 'hidden' %>
+<%= link_to 'Add To Collection', add_to_collection_wallpaper_path(@wallpaper), remote: true, id: 'add-wallpaper-to-collection', class: @wallpaper_stat.favorite ? 'hidden' : 'show'  %>
+<% end %>

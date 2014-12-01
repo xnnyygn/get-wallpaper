@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       get 'thumbnail'
       get 'download_dialog'
       get 'download'
+      get 'add_to_collection'
+      get 'remove_from_collection'
     end
     collection do
       get 'recommend' => 'wallpapers#list_recommend'
