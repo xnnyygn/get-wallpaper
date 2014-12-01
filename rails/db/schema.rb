@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130072454) do
+ActiveRecord::Schema.define(version: 20141130104727) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -31,6 +31,19 @@ ActiveRecord::Schema.define(version: 20141130072454) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "wallpaper_stats", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "wallpaper_id"
+    t.integer  "rate",           default: 0
+    t.integer  "download_count", default: 0
+    t.boolean  "favorite",       default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "wallpaper_stats", ["user_id"], name: "index_wallpaper_stats_on_user_id"
+  add_index "wallpaper_stats", ["wallpaper_id"], name: "index_wallpaper_stats_on_wallpaper_id"
 
   create_table "wallpaper_tags", force: true do |t|
     t.integer  "wallpaper_id"

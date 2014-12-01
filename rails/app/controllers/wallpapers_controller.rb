@@ -68,28 +68,35 @@ class WallpapersController < ApplicationController
   end
 
   def download
-    wallpaper = Wallpaper.find(params[:id])
-    if wallpaper
-      # check width
-      width = params[:width].to_i
-      height = params[:height].to_i
-      if wallpaper.check_resolution(width, height)
-        # increase download count
-        wallpaper.download_count += 1
-        wallpaper.save()
+    ActiveRecord::Base.transaction do
+      wallpaper = Wallpaper.find(params[:id])
+      if wallpaper
+        # check width
+        width = params[:width].to_i
+        height = params[:height].to_i
+        if wallpaper.check_resolution(width, height)
+          # increase download count
+          wallpaper.download_count += 1
+          wallpaper.save()
 
-        send_file wallpaper.crop_and_resize(width, height), 
-          filename: "#{wallpaper.title}-#{width}x#{height}#{wallpaper.determine_extension}",
-          type: wallpaper.mime_type,
-          disposition:'attachment'
+          # merge wallpaper stat
+          wallpaper_stat = WallpaperStat.find_or_create(wallpaper, @current_user)
+          wallpaper_stat.download_count += 1
+          wallpaper_stat.save()
+
+          send_file wallpaper.crop_and_resize(width, height), 
+            filename: "#{wallpaper.title}-#{width}x#{height}#{wallpaper.determine_extension}",
+            type: wallpaper.mime_type,
+            disposition:'attachment'
+        else
+          logger.warn "illegal resolution #{width}x#{height}"
+          # TODO return message
+          render status: 400
+        end
       else
-        logger.warn "illegal resolution #{width}x#{height}"
-        # TODO return message
-        render status: 400
+        # send 404
+        render status: 404
       end
-    else
-      # send 404
-      render status: 404
     end
   end
 

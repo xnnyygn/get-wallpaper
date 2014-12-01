@@ -1,5 +1,9 @@
 <h2><%= @wallpaper.title %></h2>
-<p>Uploaded At <%= @wallpaper.created_at %> By <%= @wallpaper.uploader.name %></p>
+<p>
+  Uploaded At <%= @wallpaper.created_at %> 
+  By <%= @wallpaper.uploader.name %>
+  Download Count <%= @wallpaper.download_count %>
+</p>
 <p>
   Tags:
   <% @wallpaper.tags.each do |t| %>
