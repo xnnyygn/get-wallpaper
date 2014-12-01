@@ -1,6 +1,7 @@
 class WallpapersController < ApplicationController
 
-  skip_before_action :authorize, except: [:new, :create, :add_to_collection]
+  skip_before_action :authorize, except: [:new, :create, 
+    :add_to_collection, :remove_from_collection, :list_favorite]
 
   def index
     if @current_user
@@ -65,14 +66,14 @@ class WallpapersController < ApplicationController
   def download_dialog
     @wallpaper = Wallpaper.find(params[:id])
     if @current_user
-      @wallpaper_stat = WallpaperStat.find_by(wallpaper: @wallpaper, user: @current_user) || WallpaperStat.new
+      @wallpaper_stat = WallpaperStat.find_or_initialize_by(wallpaper: @wallpaper, user: @current_user)
     end
     render layout:false
   end
 
   def add_to_collection
     wallpaper = Wallpaper.find(params[:id])
-    wallpaper_stat = WallpaperStat.find_or_create(wallpaper, @current_user)
+    wallpaper_stat = WallpaperStat.find_or_initialize_by(wallpaper: wallpaper, user: @current_user)
     wallpaper_stat.favorite = true
     wallpaper_stat.save
 
@@ -83,13 +84,19 @@ class WallpapersController < ApplicationController
 
   def remove_from_collection
     wallpaper = Wallpaper.find(params[:id])
-    wallpaper_stat = WallpaperStat.find_or_create(wallpaper, @current_user)
+    wallpaper_stat = WallpaperStat.find_or_initialize_by(wallpaper: wallpaper, user: @current_user)
     wallpaper_stat.favorite = false
     wallpaper_stat.save
     
     respond_to do |format|
       format.js
     end
+  end
+
+  def list_favorite
+    @wallpapers = Wallpaper.where(id: WallpaperStat.where(
+      user: @current_user, favorite: true).order(updated_at: :desc).pluck(:wallpaper_id)
+    ).page(params[:page]).per(20)
   end
 
   def download
@@ -105,7 +112,7 @@ class WallpapersController < ApplicationController
           wallpaper.save()
 
           # merge wallpaper stat
-          wallpaper_stat = WallpaperStat.find_or_create(wallpaper, @current_user)
+          wallpaper_stat = WallpaperStat.find_or_initialize_by(wallpaper: wallpaper, user: @current_user)
           wallpaper_stat.download_count += 1
           wallpaper_stat.save()
 

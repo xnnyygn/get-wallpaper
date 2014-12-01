@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get 'recommend' => 'wallpapers#list_recommend'
       get 'latest' => 'wallpapers#list_latest'
       get 'popular' => 'wallpapers#list_popular'
+      get 'favorite' => 'wallpapers#list_favorite'
       get 'category/:category_id' => 'wallpapers#list_category', as: 'list_category'
       get 'filter'
     end
