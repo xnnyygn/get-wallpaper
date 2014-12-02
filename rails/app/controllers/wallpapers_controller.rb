@@ -11,7 +11,13 @@ class WallpapersController < ApplicationController
     @wallpapers_popular = Wallpaper.order(download_count: :desc).limit(5)
   end
 
-  def list_recommend
+  def random
+    @wallpapers = Wallpaper.find(
+      Wallpaper.order(created_at: :desc).limit(100).pluck(:id).sample(20)
+    )
+  end
+
+  def list_recommendr
     @wallpapers = recommend(20)
     if @wallpapers.empty?
       redirect_to root_url

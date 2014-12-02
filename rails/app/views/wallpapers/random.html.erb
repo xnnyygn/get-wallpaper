@@ -1,0 +1,9 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Random Wallpapers</div>
+  <div class="panel-body wallpaper-thumbnail-container">
+    <div class="clearfix">
+      <%= render partial: 'wallpaper_thumbnail_item', collection: @wallpapers, as: 'wallpaper' %>
+    </div>
+  </div>
+</div>
+<%= render 'download_dialog_modal' %>

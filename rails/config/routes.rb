@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       get 'category/:category_id' => 'wallpapers#list_category', as: 'list_category'
       get 'filter'
       get 'preferences'
+      get 'random'
     end
   end
 

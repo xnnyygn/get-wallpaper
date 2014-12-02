@@ -12,7 +12,7 @@
 		class="in.xnnyygn.getwallpaper.AutoRefreshableRemoteDataModelWrapper"
 		destroy-method="destroy">
 		<property name="sourceUrl" value="http://localhost:3000/wallpapers/preferences" />
-		<property name="period" value="10" />
+		<property name="period" value="60" />
 		<property name="filePath" value="/tmp/p.dat" />
 	</bean>
 
