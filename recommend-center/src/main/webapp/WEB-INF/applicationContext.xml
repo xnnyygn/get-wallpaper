@@ -8,7 +8,14 @@
 	<!-- Activates scanning of @Autowired -->
 	<context:annotation-config />
 
-	<!-- Activates scanning of @Repository and @Service -->
-	<context:component-scan base-package="in.xnnyygn.getwallpaper" />
+	<bean id="dataModelWrapper"
+		class="in.xnnyygn.getwallpaper.AutoRefreshableRemoteDataModelWrapper"
+		destroy-method="destroy">
+		<property name="sourceUrl" value="http://localhost:3000/wallpapers/preferences" />
+		<property name="period" value="10" />
+		<property name="filePath" value="/tmp/p.dat" />
+	</bean>
+
+	<bean id="recommender" class="in.xnnyygn.getwallpaper.RecommenderFactoryBean" />
 
 </beans>

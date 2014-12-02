@@ -1,20 +1,37 @@
 class WallpapersController < ApplicationController
 
   skip_before_action :authorize, except: [:new, :create, 
-    :add_to_collection, :remove_from_collection, :list_favorite]
+    :add_to_collection, :remove_from_collection, :list_favorite, :list_recommend]
 
   def index
     if @current_user
-      # TODO implement recommend
-      @wallpapers_recommend = Wallpaper.all().limit(5)
+      @wallpapers_recommend = recommend(5)
     end
     @wallpapers_latest = Wallpaper.order(updated_at: :desc).limit(5)
     @wallpapers_popular = Wallpaper.order(download_count: :desc).limit(5)
   end
 
   def list_recommend
-    # TODO ITEM CF
-    @wallpaper = Wallpaper.all()
+    # TODO list recommend more
+    @wallpaper = recommend(20)
+  end
+
+  def preferences
+    data = ''
+    WallpaperStat.all.each do |ws|
+      score = 0
+      score += 2 if ws.download_count > 0
+      score += 3 if ws.favorite
+      if score == 0
+        next
+      end
+
+      data << ws.user_id.to_s << ','
+      data << ws.wallpaper_id.to_s << ','
+      data << score.to_s << ','
+      data << ws.updated_at.to_time.to_i.to_s << "\n"
+    end
+    render text: data
   end
 
   def list_latest
@@ -206,5 +223,15 @@ class WallpapersController < ApplicationController
       return true
     end
 
+    def recommend(max)
+      response = Faraday.get 'http://localhost:8080/recommend-wallpaper.htm?user_id=' + @current_user.id.to_s
+      if response.status == 200
+        json = JSON.parse(response.body)
+        if json['success']
+          return Wallpaper.find(json['item_ids'])
+        end
+      end
+      []
+    end
 
 end

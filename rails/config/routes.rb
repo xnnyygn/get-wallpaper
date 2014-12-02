@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       get 'favorite' => 'wallpapers#list_favorite'
       get 'category/:category_id' => 'wallpapers#list_category', as: 'list_category'
       get 'filter'
+      get 'preferences'
     end
   end
 
