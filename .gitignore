@@ -53,3 +53,8 @@ rails/public/images/wallpapers/original/*
 !rails/public/images/wallpapers/original/.keep
 rails/public/images/wallpapers/target/*
 !rails/public/images/wallpapers/target/.keep
+
+recommend-center/target
+recommend-center/.classpath
+recommend-center/.project
+recommend-center/.settings/*
