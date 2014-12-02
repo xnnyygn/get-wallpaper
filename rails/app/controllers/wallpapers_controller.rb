@@ -12,8 +12,10 @@ class WallpapersController < ApplicationController
   end
 
   def list_recommend
-    # TODO list recommend more
-    @wallpaper = recommend(20)
+    @wallpapers = recommend(20)
+    if @wallpapers.empty?
+      redirect_to root_url
+    end
   end
 
   def preferences
@@ -224,7 +226,7 @@ class WallpapersController < ApplicationController
     end
 
     def recommend(max)
-      response = Faraday.get 'http://localhost:8080/recommend-wallpaper.htm?user_id=' + @current_user.id.to_s
+      response = Faraday.get "http://localhost:8080/recommend-wallpaper.htm?user_id=#{@current_user.id}&max=#{max}"
       if response.status == 200
         json = JSON.parse(response.body)
         if json['success']
