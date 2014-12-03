@@ -17,7 +17,7 @@ class WallpapersController < ApplicationController
     )
   end
 
-  def list_recommendr
+  def list_recommend
     @wallpapers = recommend(20)
     if @wallpapers.empty?
       redirect_to root_url
